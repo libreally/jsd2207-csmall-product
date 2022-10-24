@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.csmall.product.mapper.CategoryMapper">
+    <!--int insert(Album album);-->
+    <insert id="insert">
+        insert into mall_pms.pms_category
+        values(
+               null,#{name},#{parentId},#{depth},
+                #{keywords},#{sort},#{icon},#{enable},
+                #{isParent},#{isDisplay},#{gmtCreate},#{gmtModified}
+              )
+    </insert>
+</mapper>
