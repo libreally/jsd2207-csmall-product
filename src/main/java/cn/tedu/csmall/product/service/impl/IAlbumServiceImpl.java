@@ -2,8 +2,10 @@ package cn.tedu.csmall.product.service.impl;
 
 import cn.tedu.csmall.product.mapper.AlbumMapper;
 import cn.tedu.csmall.product.pojo.dto.AlbumAddNewDTO;
+import cn.tedu.csmall.product.pojo.entity.Album;
 import cn.tedu.csmall.product.service.IAlbumService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,8 @@ import org.springframework.stereotype.Service;
 public class IAlbumServiceImpl implements IAlbumService {
     @Autowired
     private AlbumMapper albumMapper;
-    public IAlbumServiceImpl(){
+
+    public IAlbumServiceImpl() {
         log.debug("创建业务对象");
     }
 
@@ -29,9 +32,14 @@ public class IAlbumServiceImpl implements IAlbumService {
         if (count > 0) {
             // 是：相册名称已经被占用，添加相册失败，抛出异常
             log.debug("相册名称已经被占用，添加相册失败，将抛出异常");
-        } else {
-            // 否：相册名称没有被占用，则向相册表中插入数据
-            log.debug("相册名称没有被占用，将向相册表中插入数据");
+            throw new RuntimeException();
         }
+        // 否：相册名称没有被占用，则向相册表中插入数据
+        log.debug("相册名称没有被占用，将向相册表中插入数据");
+        Album album = new Album();
+        BeanUtils.copyProperties(albumAddNewDTO, album);
+        log.debug("即将插入{}", album);
+        albumMapper.insert(album);
+        log.debug("插入数据完成");
     }
 }

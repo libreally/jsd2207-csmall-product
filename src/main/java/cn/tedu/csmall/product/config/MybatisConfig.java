@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-@MapperScan("com.example.csmall.product.mapper")
+@MapperScan("cn.tedu.csmall.product.mapper")
 public class MybatisConfig {
 
     public MybatisConfig(){
