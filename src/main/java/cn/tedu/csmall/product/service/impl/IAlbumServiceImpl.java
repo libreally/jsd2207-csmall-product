@@ -1,5 +1,6 @@
 package cn.tedu.csmall.product.service.impl;
 
+import cn.tedu.csmall.product.ex.ServiceException;
 import cn.tedu.csmall.product.mapper.AlbumMapper;
 import cn.tedu.csmall.product.pojo.dto.AlbumAddNewDTO;
 import cn.tedu.csmall.product.pojo.entity.Album;
@@ -19,7 +20,7 @@ public class IAlbumServiceImpl implements IAlbumService {
     private AlbumMapper albumMapper;
 
     public IAlbumServiceImpl() {
-        log.debug("创建业务对象");
+        log.debug("创建业务对象:IAlbumServiceImpl");
     }
 
     @Override
@@ -28,18 +29,24 @@ public class IAlbumServiceImpl implements IAlbumService {
         // 从参数对象中获取相册名称
         String albumName = albumAddNewDTO.getName();
         // 检查相册名称是否已经被占用（相册表中是否已经存在此名称的数据）
+        log.debug("检查相册名称是否已经被占用");
         int count = albumMapper.countByName(albumName);
         if (count > 0) {
+            String message="添加相册失败,相册名称已经被占用";
             // 是：相册名称已经被占用，添加相册失败，抛出异常
-            log.debug("相册名称已经被占用，添加相册失败，将抛出异常");
-            throw new RuntimeException();
+            log.debug(message);
+            throw new ServiceException(message);
         }
+
         // 否：相册名称没有被占用，则向相册表中插入数据
         log.debug("相册名称没有被占用，将向相册表中插入数据");
         Album album = new Album();
+
+        // album.getName().toLowerCase();
+
         BeanUtils.copyProperties(albumAddNewDTO, album);
-        log.debug("即将插入{}", album);
+        log.debug("即将插入相册数据：{}", album);
         albumMapper.insert(album);
-        log.debug("插入数据完成");
+        log.debug("插入相册数据完成");
     }
 }
