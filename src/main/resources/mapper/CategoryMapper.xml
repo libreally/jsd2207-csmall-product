@@ -66,6 +66,10 @@
         FROM mall_pms.pms_category
         WHERE id=#{id}
     </select>
+    <!--int countByName(String name);-->
+    <select id="countByName" resultType="int">
+        SELECT COUNT(*) FROM mall_pms.pms_brand WHERE name=#{name}
+    </select>
     <!--List<CategoryListVO> list();-->
     <select id="list" resultType="cn.tedu.csmall.product.pojo.vo.CategoryListVO">
         SELECT id, name,parent_id,depth,sort

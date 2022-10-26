@@ -15,6 +15,7 @@ public interface BrandMapper {
     int deleteByIds(Long[] id);
     int update(Brand brand);
     int count();
+    int countByName(String name);
     BrandStanderVO selectById(Long id);
     List<BrandListVO> list();
 }

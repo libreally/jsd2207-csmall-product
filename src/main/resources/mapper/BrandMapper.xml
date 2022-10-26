@@ -59,6 +59,10 @@
     <select id="count" resultType="int">
         SELECT COUNT(*) FROM mall_pms.pms_brand
     </select>
+    <!--int countByName(String name);-->
+    <select id="countByName" resultType="int">
+        SELECT COUNT(*) FROM mall_pms.pms_brand WHERE name=#{name}
+    </select>
     <!--BrandStanderVO selectById(Long id);-->
     <select id="selectById" resultType="cn.tedu.csmall.product.pojo.vo.BrandStanderVO">
         SELECT  id, name, pinyin, logo, description

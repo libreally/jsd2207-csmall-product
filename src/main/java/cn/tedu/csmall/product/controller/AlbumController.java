@@ -23,7 +23,7 @@ public class AlbumController {
     }
     // http://localhost:8080/add-new?name=相册001&description=相册001的简介&sort=199
 
-    @RequestMapping("/add-new")
+    @RequestMapping("/add-newAlbum")
     public String addNew(AlbumAddNewDTO albumAddNewDTO){
         log.debug("开始处理【添加相册】的请求，参数：{}", albumAddNewDTO);
         try {

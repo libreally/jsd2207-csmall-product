@@ -18,6 +18,7 @@ public interface CategoryMapper {
     int deleteByIds(Long[] id);
     int update(Category category);
     int count();
+    int countByName(String name);
     CategoryStanderVO selectById(Long id);
     List<CategoryListVO> list();
 }
