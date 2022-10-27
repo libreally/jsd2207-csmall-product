@@ -2,8 +2,9 @@ package cn.tedu.csmall.product.controller;
 
 
 import cn.tedu.csmall.product.ex.ServiceException;
-import cn.tedu.csmall.product.pojo.dto.CategoryAddNewDTO;
-import cn.tedu.csmall.product.service.ICategoryService;
+import cn.tedu.csmall.product.pojo.dto.AttributeTemplateDTO;
+import cn.tedu.csmall.product.service.IAttributeTemplateService;
+
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,36 +14,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/AttributeTemplate")
+public class AttributeTemplateController {
     @Autowired
-    private ICategoryService categoryService;
+    private IAttributeTemplateService iAttributeTemplateService;
 
-    public CategoryController() {
-        log.debug("创建控制器对象：CategoryController");
-    }
+    public AttributeTemplateController() { log.debug("创建控制器对象：AttributeTemplateController"); }
 
     @ApiOperation("添加相册")
     @ApiOperationSupport(order = 100)
-    @RequestMapping("/add-newCategory" )
-    public String addNew(CategoryAddNewDTO categoryAddNewDTO) {
-        log.debug("开始处理分类请求，参数：{}", categoryAddNewDTO);
-
+    @RequestMapping("/add-new")
+    public String addNew(AttributeTemplateDTO attributeTemplateDTO){
+        log.debug("开始处理【添加属性模板】的请求，参数：{}", attributeTemplateDTO);
         try {
-            categoryService.addNew(categoryAddNewDTO);
-
+            iAttributeTemplateService.addNew(attributeTemplateDTO);
             log.debug("添加数据成功！");
-            return "添加分类成功！";
+            return "添加属性模板成功！";
         } catch (ServiceException e) {
-            String message = e.getMessage();
+            String message=e.getMessage();
             log.debug(message);
             return message;
         } catch (RuntimeException e) {
             log.debug("添加数据失败！程序运行过程中出现了RuntimeException！");
-            return "添加分类失败！程序运行过程中出现了RuntimeException！";
+            return "添加属性模板失败！程序运行过程中出现了RuntimeException！";
         } catch (Throwable e) {
             log.debug("添加数据失败！程序运行过程中出现了Throwable！");
-            return "添加分类失败！程序运行过程中出现了Throwable！";
+            return "添加属性模板失败！程序运行过程中出现了Throwable！";
         }
     }
+    
+       
 }

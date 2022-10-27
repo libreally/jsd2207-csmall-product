@@ -3,6 +3,8 @@ package cn.tedu.csmall.product.controller;
 import cn.tedu.csmall.product.ex.ServiceException;
 import cn.tedu.csmall.product.pojo.dto.BrandAddNewDTO;
 import cn.tedu.csmall.product.service.IBrandService;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,9 @@ public class BrandController {
     public BrandController(){
         log.debug("创建控制器对象：BrandController");
     }
-    
+
+    @ApiOperation("添加相册")
+    @ApiOperationSupport(order = 100)
     @RequestMapping("/add-newBrand")
     public String addNew(BrandAddNewDTO brandAddNewDTO){
         log.debug("开始处理【添加商品】的请求，参数：{}", brandAddNewDTO);

@@ -14,6 +14,7 @@ public interface AttributeTemplateMapper {
     int deleteByIds(Long[] id);
     int update(AttributeTemplate attributeTemplate);
     int count();
+    int countByName(String name);
     AttributeTemplateStanderVO selectById(Long id);
     List<AttributeTemplateListVO> list();
 

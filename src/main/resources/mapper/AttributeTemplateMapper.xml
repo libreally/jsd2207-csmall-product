@@ -50,6 +50,10 @@
         SELECT COUNT(*)
         FROM mall_pms.pms_attribute_template
     </select>
+    <!--int countByName(String name);-->
+    <select id="countByName" resultType="int">
+        SELECT COUNT(*) FROM mall_pms.pms_attribute_template WHERE name=#{name}
+    </select>
     <!--AttributeTemplateStanderVO selectById(Long id);-->
     <select id="selectById" resultType="cn.tedu.csmall.product.pojo.vo.AttributeTemplateStanderVO">
         SELECT id,name,pinyin,keywords,sort
