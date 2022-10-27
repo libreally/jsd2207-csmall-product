@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@RequestMapping("/brand")
 public class BrandController {
     @Autowired
     IBrandService brandService;

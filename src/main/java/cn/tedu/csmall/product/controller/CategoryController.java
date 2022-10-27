@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@RequestMapping("/category")
 public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
