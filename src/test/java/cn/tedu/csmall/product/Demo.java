@@ -1,6 +1,9 @@
 package cn.tedu.csmall.product;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Demo {
 
@@ -27,5 +30,4 @@ public class Demo {
     void b2() {
         a2();
     }
-
 }

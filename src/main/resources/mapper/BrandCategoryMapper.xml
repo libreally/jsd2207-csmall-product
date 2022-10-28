@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.csmall.product.mapper.BrandCategoryMapper">
+    <!--int insert(BrandCategory brandCategory);;-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into mall_pms.pms_brand_category
+        values (null, #{brandId},#{categoryId},#{gmtModified},#{gmtCreate})
+    </insert>
+    <!--int insertBatch(List<BrandCategory> brandCategorys);-->
+    <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mall_pms.pms_brand_category
+        VALUES
+        <foreach collection="list" item="i" separator=",">
+            (null, #{i.brandId},#{i.categoryId},#{i.gmtModified},#{i.gmtCreate})
+        </foreach>
+    </insert>
+    <!--int deleteById(Long id);-->
+    <delete id="deleteById">
+        DELETE
+        FROM mall_pms.pms_brand_category
+        WHERE mall_pms.pms_brand_category.id = #{id}
+    </delete>
+    <!--int deleteByIds(Long[] id);-->
+    <delete id="deleteByIds">
+        DELETE FROM mall_pms.pms_brand_category
+        WHERE id in(
+        <foreach collection="array" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+    <!--int update(Long id);-->
+    <update id="update">
+        UPDATE mall_pms.pms_brand_category
+        <set>
+            <if test="pinyin!=null">#{brandId}</if>
+            <if test="pinyin!=null">#{CategoryId}</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+    <!--int count();-->
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM mall_pms.pms_brand_category
+    </select>
+    <!--int countByName(String name);-->
+    <select id="countByName" resultType="int">
+        SELECT COUNT(*) FROM mall_pms.pms_brand_category WHERE id=#{id}
+    </select>
+    <!--brandCategoryStanderVO selectById(Long id);-->
+    <select id="selectById" resultType="cn.tedu.csmall.product.pojo.vo.BrandCategoryStanderVO">
+        SELECT  id, brand_id, category_id
+        FROM mall_pms.pms_brand_category
+        WHERE id=#{id}
+    </select>
+    <!--List<BrandCategoryListVO> list();-->
+    <select id="list" resultType="cn.tedu.csmall.product.pojo.vo.BrandCategoryListVO">
+        SELECT  id, brand_id, category_id
+        FROM mall_pms.pms_brand_category
+        ORDER BY brand_id DESC ,category_id DESC ,id DESC
+    </select>
+</mapper>
