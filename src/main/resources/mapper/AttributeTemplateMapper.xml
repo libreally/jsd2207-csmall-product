@@ -1,69 +1,126 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="cn.tedu.csmall.product.mapper.AttributeTemplateMapper">
-    <!--int insert( AttributeTemplate attributeTemplate);;-->
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into mall_pms.pms_attribute_template
-        values (null, #{name}, #{pinyin}, #{keywords}, #{sort}, #{gmt_create}, #{gmt_modified})
+
+    <!-- int insert(AttributeTemplate attributeTemplate); -->
+    <insert id="insert">
+        INSERT INTO mall_pms.pms_attribute_template (
+            name, pinyin, keywords, sort
+        ) VALUES (
+            #{name}, #{pinyin}, #{keywords}, #{sort}
+        )
     </insert>
-    <!--int insertBatch(List<AttributeTemplate> attributeTemplates);-->
+
+    <!-- int insertBatch(List<AttributeTemplate> attributeTemplateList); -->
     <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO mall_pms.pms_attribute_template
-        VALUES
-        <foreach collection="list" item="i" separator=",">
-            (null, #{i.name}, #{i.pinyin}, #{i.keywords}, #{i.sort}, #{i.gmt_create}, #{i.gmt_modified})
+        INSERT INTO mall_pms.pms_attribute_template (name, pinyin, keywords, sort) VALUES
+        <foreach collection="list" item="attributeTemplate" separator=",">
+            (#{attributeTemplate.name}, #{attributeTemplate.pinyin}, #{attributeTemplate.keywords}, #{attributeTemplate.sort})
         </foreach>
     </insert>
-    <!--int deleteById(Long id);-->
+
+    <!-- int deleteById(Long id); -->
     <delete id="deleteById">
-        DELETE
-        FROM mall_pms.pms_attribute_template
-        WHERE id = #{id}
+        DELETE FROM mall_pms.pms_attribute_template WHERE id=#{id}
     </delete>
-    <!--int deleteByIds(Long[] id);-->
+
+    <!-- int deleteByIds(Long[] ids); -->
     <delete id="deleteByIds">
-        DELETE FROM mall_pms.pms_attribute_template
-        WHERE id in(
-        <foreach collection="array" item="id" separator=",">
-            #{id}
-        </foreach>
+        DELETE FROM mall_pms.pms_attribute_template WHERE id IN (
+            <foreach collection="array" item="id" separator=",">
+                #{id}
+            </foreach>
         )
     </delete>
-    <!--int update(Long id);-->
-    <update id="update">
-        UPDATE mall_pms.pms_attribute_template
-        <set>
-            <if test="name!=null">pms_category.name=#{name}</if>
-            <if test="pinyin!=null">#{parentId}</if>
-            <if test="keywords!=null">#{keywords}</if>
-            <if test="sort!=null">#{sort}</if>
-            <if test="gmtCreate!=null">#{gmtCreate}</if>
-            <if test="gmtModified!=null">#{gmtModified}</if>
 
+    <!-- int update(AttributeTemplate attributeTemplate); -->
+    <update id="update">
+        UPDATE
+        mall_pms.pms_attribute_template
+        <set>
+            <if test="name != null">
+                name=#{name},
+            </if>
+            <if test="pinyin != null">
+                pinyin=#{pinyin},
+            </if>
+            <if test="keywords != null">
+                keywords=#{keywords},
+            </if>
+            <if test="sort != null">
+                sort=#{sort},
+            </if>
         </set>
         WHERE id=#{id}
     </update>
-    <!--int count();-->
+
+    <!-- int count(); -->
     <select id="count" resultType="int">
-        SELECT COUNT(*)
-        FROM mall_pms.pms_attribute_template
+        SELECT count(*) FROM mall_pms.pms_attribute_template
     </select>
-    <!--int countByName(String name);-->
+
+    <!-- int countByName(String name); -->
     <select id="countByName" resultType="int">
-        SELECT COUNT(*) FROM mall_pms.pms_attribute_template WHERE name=#{name}
+        SELECT count(*) FROM mall_pms.pms_attribute_template WHERE name=#{name}
     </select>
-    <!--AttributeTemplateStanderVO selectById(Long id);-->
-    <select id="selectById" resultType="cn.tedu.csmall.product.pojo.vo.AttributeTemplateStanderVO">
-        SELECT id,name,pinyin,keywords,sort
-        FROM mall_pms.pms_attribute_template
-        WHERE id = #{id}
+
+    <!-- AttributeTemplateStandardVO getStandardById(Long id); -->
+    <select id="getStandardById" resultMap="StandardResultMap">
+        SELECT
+            <include refid="StandardQueryFields"/>
+        FROM
+        mall_pms.pms_attribute_template
+        WHERE
+            id=#{id}
     </select>
-    <!--List<AttributeTemplateListVO> list();-->
-    <select id="list" resultType="cn.tedu.csmall.product.pojo.vo.AttributeTemplateListVO">
-        SELECT id,name,pinyin,keywords,sort
-        FROM mall_pms.pms_attribute_template
-        ORDER BY sort DESC, id DESC
+
+    <!-- List<AlbumListItemVO> list(); -->
+    <select id="list" resultMap="ListResultMap">
+        SELECT
+            <include refid="ListQueryFields"/>
+        FROM
+        mall_pms.pms_attribute_template
+        ORDER BY
+            sort DESC, id DESC
     </select>
+
+    <sql id="StandardQueryFields">
+        <if test="true">
+            id,
+            name,
+            pinyin,
+            keywords,
+            sort
+        </if>
+    </sql>
+
+    <resultMap id="StandardResultMap"
+               type="cn.tedu.csmall.product.pojo.vo.AttributeTemplateStandardVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="pinyin" property="pinyin"/>
+        <result column="keywords" property="keywords"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
+    <sql id="ListQueryFields">
+        <if test="true">
+            id,
+            name,
+            pinyin,
+            keywords,
+            sort
+        </if>
+    </sql>
+
+    <resultMap id="ListResultMap"
+               type="cn.tedu.csmall.product.pojo.vo.AttributeTemplateListItemVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="pinyin" property="pinyin"/>
+        <result column="keywords" property="keywords"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
 </mapper>

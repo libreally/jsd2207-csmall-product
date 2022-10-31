@@ -23,10 +23,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public JsonResult handleServiceException(ServiceException e) {
         log.debug("处理请求的方法抛出了ServiceException，将统一处理");
-        /*JsonResult jsonResult = new JsonResult();
-        jsonResult.setState(2);
-        jsonResult.setMessage(e.getMessage());*/
-        return JsonResult.fail(2,e.getMessage());
+
+        //JsonResult jsonResult = new JsonResult();
+        //jsonResult.setState(2);
+        //jsonResult.setMessage(e.getMessage());
+        return JsonResult.fail(2, e.getMessage());
     }
 
 }

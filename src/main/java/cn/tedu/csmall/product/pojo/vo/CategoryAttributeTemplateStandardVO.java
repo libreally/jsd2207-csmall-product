@@ -2,8 +2,17 @@ package cn.tedu.csmall.product.pojo.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
+/**
+ * 类别与属性模板关联的标准VO类
+ *
+ * @author java@tedu.cn
+ * @version 0.0.1
+ */
 @Data
-public class CategoryAttributeTemplateStanderVO {
+public class CategoryAttributeTemplateStandardVO implements Serializable {
+
     /**
      * 记录id
      */

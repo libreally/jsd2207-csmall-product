@@ -2,7 +2,7 @@ package cn.tedu.csmall.product.controller;
 
 
 import cn.tedu.csmall.product.ex.ServiceException;
-import cn.tedu.csmall.product.pojo.dto.AttributeTemplateDTO;
+import cn.tedu.csmall.product.pojo.dto.AttributeTemplateAddNewDTO;
 import cn.tedu.csmall.product.service.IAttributeTemplateService;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -17,17 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/AttributeTemplate")
 public class AttributeTemplateController {
     @Autowired
-    private IAttributeTemplateService iAttributeTemplateService;
-
+    private IAttributeTemplateService attributeTemplateService;
     public AttributeTemplateController() { log.debug("创建控制器对象：AttributeTemplateController"); }
 
     @ApiOperation("添加相册")
     @ApiOperationSupport(order = 100)
     @RequestMapping("/add-new")
-    public String addNew(AttributeTemplateDTO attributeTemplateDTO){
-        log.debug("开始处理【添加属性模板】的请求，参数：{}", attributeTemplateDTO);
+    public String addNew(AttributeTemplateAddNewDTO attributeTemplateAddNewDTO){
+        log.debug("开始处理【添加属性模板】的请求，参数：{}", attributeTemplateAddNewDTO);
         try {
-            iAttributeTemplateService.addNew(attributeTemplateDTO);
+            attributeTemplateService.addNew(attributeTemplateAddNewDTO);
             log.debug("添加数据成功！");
             return "添加属性模板成功！";
         } catch (ServiceException e) {

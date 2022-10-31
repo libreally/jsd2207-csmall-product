@@ -1,8 +1,5 @@
 package cn.tedu.csmall.product.mapper;
 
-import cn.tedu.csmall.product.pojo.entity.Album;
-import cn.tedu.csmall.product.pojo.vo.AlbumListItemVO;
-import cn.tedu.csmall.product.pojo.vo.AlbumStandardVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

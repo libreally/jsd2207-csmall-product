@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/brand")
 public class BrandController {
     @Autowired
-    IBrandService brandService;
+    private IBrandService brandService;
     
     public BrandController(){
         log.debug("创建控制器对象：BrandController");

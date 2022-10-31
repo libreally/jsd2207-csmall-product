@@ -11,15 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 实现处理相册数据接口
+ * 处理相册数据的业务实现类
+ *
+ * @author java@tedu.cn
+ * @version 0.0.1
  */
 @Slf4j
 @Service
-public class IAlbumServiceImpl implements IAlbumService {
+public class AlbumServiceImpl implements IAlbumService {
+
     @Autowired
     private AlbumMapper albumMapper;
 
-    public IAlbumServiceImpl() {
+    public AlbumServiceImpl() {
         log.debug("创建业务对象:IAlbumServiceImpl");
     }
 
@@ -32,8 +36,8 @@ public class IAlbumServiceImpl implements IAlbumService {
         log.debug("检查相册名称是否已经被占用");
         int count = albumMapper.countByName(albumName);
         if (count > 0) {
-            String message="添加相册失败,相册名称已经被占用";
             // 是：相册名称已经被占用，添加相册失败，抛出异常
+            String message = "添加相册失败，相册名称已经被占用！";
             log.debug(message);
             throw new ServiceException(message);
         }
@@ -41,12 +45,10 @@ public class IAlbumServiceImpl implements IAlbumService {
         // 否：相册名称没有被占用，则向相册表中插入数据
         log.debug("相册名称没有被占用，将向相册表中插入数据");
         Album album = new Album();
-
-        // album.getName().toLowerCase();
-
         BeanUtils.copyProperties(albumAddNewDTO, album);
         log.debug("即将插入相册数据：{}", album);
         albumMapper.insert(album);
         log.debug("插入相册数据完成");
     }
+
 }

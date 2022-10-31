@@ -37,10 +37,6 @@ public class AlbumController {
         log.debug("开始处理【添加相册】的请求，参数：{}", albumAddNewDTO);
         albumService.addNew(albumAddNewDTO);
         log.debug("添加数据成功！");
-
-        /*JsonResult jsonResult = new JsonResult();
-        jsonResult.setState(1);
-        jsonResult.setMessage("添加相册成功");*/
         return JsonResult.ok();
     }
        /* @ExceptionHandler
@@ -57,6 +53,7 @@ public class AlbumController {
     // http://localhost:8080/album/9527/delete
     @ApiOperation("根据id删除相册")
     @ApiOperationSupport(order = 201)
+    @ApiImplicitParam(name = "id", value = "相册id", required = true, dataType = "long")
     @RequestMapping("/{id:[0-9]+}/delete")
     public String delete1(@PathVariable Long id) {
         String message = "尝试删除id值为【" + id + "】的相册";
