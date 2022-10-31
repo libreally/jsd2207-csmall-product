@@ -11,4 +11,4 @@ knife4j:
   enable: true
 
 server:
-  port: 8090
+  port: 9080

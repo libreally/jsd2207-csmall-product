@@ -1,9 +1,9 @@
 package cn.tedu.csmall.product.controller;
 
 
-import cn.tedu.csmall.product.ex.ServiceException;
 import cn.tedu.csmall.product.pojo.dto.AlbumAddNewDTO;
 import cn.tedu.csmall.product.service.IAlbumService;
+import cn.tedu.csmall.product.web.JsonResult;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,12 +31,17 @@ public class AlbumController {
     @ApiOperation("添加相册")
     @ApiOperationSupport(order = 100)
     @ApiImplicitParam(name = "id" ,value = "相册id",required = true,dataType = "long")
+
     @RequestMapping( "/add-newAlbum" )
-    public String addNew(AlbumAddNewDTO albumAddNewDTO) {
+    public JsonResult addNew(AlbumAddNewDTO albumAddNewDTO) {
         log.debug("开始处理【添加相册】的请求，参数：{}", albumAddNewDTO);
         albumService.addNew(albumAddNewDTO);
         log.debug("添加数据成功！");
-        return "添加相册成功！";
+
+        /*JsonResult jsonResult = new JsonResult();
+        jsonResult.setState(1);
+        jsonResult.setMessage("添加相册成功");*/
+        return JsonResult.ok();
     }
        /* @ExceptionHandler
         public String xxx(ServiceException e) {
