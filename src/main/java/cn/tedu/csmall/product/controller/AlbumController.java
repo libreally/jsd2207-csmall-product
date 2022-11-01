@@ -9,16 +9,22 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 处理相册请求控制器
  */
-@Api
+
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("/album")
+@Api(tags = "04. 相册管理模块")
 public class AlbumController {
     @Autowired
     private IAlbumService albumService;
@@ -33,7 +39,7 @@ public class AlbumController {
     @ApiImplicitParam(name = "id" ,value = "相册id",required = true,dataType = "long")
 
     @RequestMapping( "/add-newAlbum" )
-    public JsonResult addNew(AlbumAddNewDTO albumAddNewDTO) {
+    public JsonResult addNew(@Valid AlbumAddNewDTO albumAddNewDTO) {
         log.debug("开始处理【添加相册】的请求，参数：{}", albumAddNewDTO);
         albumService.addNew(albumAddNewDTO);
         log.debug("添加数据成功！");
@@ -50,15 +56,15 @@ public class AlbumController {
             throw new ServiceException("这是一个测试抛出的异常");
         }*/
 
-    // http://localhost:8080/album/9527/delete
     @ApiOperation("根据id删除相册")
     @ApiOperationSupport(order = 201)
     @ApiImplicitParam(name = "id", value = "相册id", required = true, dataType = "long")
     @RequestMapping("/{id:[0-9]+}/delete")
-    public String delete1(@PathVariable Long id) {
-        String message = "尝试删除id值为【" + id + "】的相册";
-        log.debug(message);
-        return message;
+    public JsonResult delete1(@Range(min = 1, message = "删除相册失败，尝试删除的相册的ID无效！")
+                              @PathVariable Long id) {
+        log.debug("开始处理[根据id删除相册]的请求,参数:{}",id);
+        albumService.delete(id);
+        return JsonResult.ok();
     }
 
     // http://localhost:8080/album/9527/delete

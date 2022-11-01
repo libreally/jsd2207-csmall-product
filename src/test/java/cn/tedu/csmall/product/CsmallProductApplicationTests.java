@@ -5,19 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 
 @SpringBootTest
-class Jsd2207CsmallProductApplicationTests {
-    @Autowired
-    DataSource dataSource;
+class CsmallProductApplicationTests {
 
     @Test
     void contextLoads() {
     }
 
+    @Autowired
+    DataSource dataSource;
+
     @Test
-    void getConnection () throws SQLException {
+    void getConnection() throws Throwable {
         dataSource.getConnection();
     }
 
