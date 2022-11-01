@@ -3,6 +3,7 @@ package cn.tedu.csmall.product.service.impl;
 import cn.tedu.csmall.product.ex.ServiceException;
 import cn.tedu.csmall.product.mapper.AlbumMapper;
 import cn.tedu.csmall.product.mapper.PictureMapper;
+import cn.tedu.csmall.product.mapper.SpuMapper;
 import cn.tedu.csmall.product.pojo.dto.AlbumAddNewDTO;
 import cn.tedu.csmall.product.pojo.entity.Album;
 import cn.tedu.csmall.product.pojo.vo.AlbumStandardVO;
@@ -27,6 +28,9 @@ public class AlbumServiceImpl implements IAlbumService {
     private AlbumMapper albumMapper;
     @Autowired
     private PictureMapper pictureMapper;
+    @Autowired
+    private SpuMapper spuMapper;
+
     public AlbumServiceImpl() {
         log.debug("创建业务对象:IAlbumServiceImpl");
     }
@@ -70,12 +74,23 @@ public class AlbumServiceImpl implements IAlbumService {
             throw new ServiceException(ServiceCode.ERR_NOT_FOUND,message);
         }
         // 检查是否存在图片（picture）关联到此相册，如果存在，则不允许删除
-        int count=pictureMapper.countByAlbumId(id);
-        if (count>0){
-            String message="删除失败,存在关联的图片数据";
-            log.debug(message);
-            throw new ServiceException(ServiceCode.ERR_CONFLICT,message);
+        {
+            int count = pictureMapper.countByAlbumId(id);
+            if (count > 0) {
+                String message = "删除失败,存在关联的图片数据";
+                log.debug(message);
+                throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
+            }
         }
+        {
+            int count = spuMapper.countByAlbumId(id);
+            if (count > 0) {
+                String message = "删除失败,存在关联的spu数据";
+                log.debug(message);
+                throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
+            }
+        }
+
         //执行方法删除
         log.debug("即将执行删除,参数:{}",id);
         albumMapper.deleteById(id);

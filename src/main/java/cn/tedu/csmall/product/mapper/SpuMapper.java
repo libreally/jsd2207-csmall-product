@@ -64,6 +64,13 @@ public interface SpuMapper {
     int count();
 
     /**
+     * 根据albumId统计数量
+     * @param id
+     * @return int
+     */
+    int countByAlbumId(Long id);
+
+    /**
      * 根据id查询SPU标准信息
      *
      * @param id SPUid

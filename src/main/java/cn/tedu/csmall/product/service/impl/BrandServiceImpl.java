@@ -49,4 +49,10 @@ public class BrandServiceImpl implements IBrandService {
         brandMapper.insert(brand);
     }
 
+    @Override
+    public void delete(Long id){
+
+    }
+
+
 }

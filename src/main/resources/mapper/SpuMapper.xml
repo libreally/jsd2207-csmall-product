@@ -152,7 +152,10 @@
     <select id="count" resultType="int">
         SELECT count(*) FROM mall_pms.pms_spu
     </select>
-
+    <!--int countByAlbumId(Long id);-->
+    <select id="countByAlbumId" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_spu where album_id=#{albumId}
+    </select>
     <!-- SpuStandardVO getStandardById(Long id); -->
     <select id="getStandardById" resultMap="StandardResultMap">
         SELECT
