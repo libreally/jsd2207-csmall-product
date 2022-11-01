@@ -70,6 +70,12 @@ public class PictureMapperTests {
         int count = mapper.count();
         log.debug("统计完成，表中的数据的数量：{}", count);
     }
+    @Test
+    void countByAlbumId() {
+        Long albumId=1L;
+        int count = mapper.countByAlbumId(albumId);
+        log.debug("根据相册[{}]统计图片数量,结果:{}",albumId, count);
+    }
 
     @Test
     void getStandardById() {

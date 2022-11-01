@@ -64,6 +64,13 @@ public interface PictureMapper {
     int count();
 
     /**
+     * 统计数据的数量,根据albumId
+     * @param albumId 相册数据的id
+     * @return int
+     */
+    int countByAlbumId(Long albumId);
+
+    /**
      * 根据id查询图片标准信息
      *
      * @param id 图片id
