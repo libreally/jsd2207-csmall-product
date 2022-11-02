@@ -4,12 +4,17 @@ import cn.tedu.csmall.product.ex.ServiceException;
 import cn.tedu.csmall.product.mapper.AttributeTemplateMapper;
 import cn.tedu.csmall.product.pojo.dto.AttributeTemplateAddNewDTO;
 import cn.tedu.csmall.product.pojo.entity.AttributeTemplate;
+import cn.tedu.csmall.product.pojo.vo.AlbumStandardVO;
+import cn.tedu.csmall.product.pojo.vo.AttributeTemplateListItemVO;
+import cn.tedu.csmall.product.pojo.vo.AttributeTemplateStandardVO;
 import cn.tedu.csmall.product.service.IAttributeTemplateService;
 import cn.tedu.csmall.product.web.ServiceCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 处理属性模板业务的实现类
@@ -50,6 +55,28 @@ public class AttributeTemplateServiceImpl implements IAttributeTemplateService {
         // 执行插入数据
         log.debug("准备向数据库中写入属性模板数据：{}", attributeTemplate);
         attributeTemplateMapper.insert(attributeTemplate);
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.debug("开始处理【根据id删除属性模板】的业务，参数：{}", id);
+        //调用mapper执行查询
+        AttributeTemplateStandardVO standardById = attributeTemplateMapper.getStandardById(id);
+        //判断查询结果是否为null
+        if (standardById==null){
+            String message="删除失败,尝试访问的数据不存在";
+            log.debug(message);
+            throw new ServiceException(ServiceCode.ERR_NOT_FOUND,message);
+        }
+        //执行方法删除
+        log.debug("即将执行删除,参数:{}",id);
+        attributeTemplateMapper.deleteById(id);
+    }
+
+    @Override
+    public List<AttributeTemplateListItemVO> list() {
+        log.debug("开始处理[查询属性列表]的业务,无参数");
+        return attributeTemplateMapper.list();
     }
 
 }
