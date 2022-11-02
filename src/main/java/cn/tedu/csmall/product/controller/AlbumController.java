@@ -2,6 +2,7 @@ package cn.tedu.csmall.product.controller;
 
 
 import cn.tedu.csmall.product.pojo.dto.AlbumAddNewDTO;
+import cn.tedu.csmall.product.pojo.vo.AlbumListItemVO;
 import cn.tedu.csmall.product.service.IAlbumService;
 import cn.tedu.csmall.product.web.JsonResult;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 处理相册请求控制器
@@ -39,7 +41,7 @@ public class AlbumController {
     @ApiImplicitParam(name = "id" ,value = "相册id",required = true,dataType = "long")
 
     @RequestMapping( "/add-newAlbum" )
-    public JsonResult addNew(@Valid AlbumAddNewDTO albumAddNewDTO) {
+    public JsonResult<Void>  addNew(@Valid AlbumAddNewDTO albumAddNewDTO) {
         log.debug("开始处理【添加相册】的请求，参数：{}", albumAddNewDTO);
         albumService.addNew(albumAddNewDTO);
         log.debug("添加数据成功！");
@@ -60,7 +62,7 @@ public class AlbumController {
     @ApiOperationSupport(order = 201)
     @ApiImplicitParam(name = "id", value = "相册id", required = true, dataType = "long")
     @RequestMapping("/{id:[0-9]+}/delete")
-    public JsonResult delete1(@Range(min = 1, message = "删除相册失败，尝试删除的相册的ID无效！")
+    public JsonResult<Void>  delete1(@Range(min = 1, message = "删除相册失败，尝试删除的相册的ID无效！")
                               @PathVariable Long id) {
         log.debug("开始处理[根据id删除相册]的请求,参数:{}",id);
         albumService.delete(id);
@@ -86,4 +88,13 @@ public class AlbumController {
         return message;
     }
 
+    // http://localhost:8080/albums
+    @ApiOperation("查询相册列表")
+    @ApiOperationSupport(order = 420)
+    @GetMapping("")
+    public JsonResult<List<AlbumListItemVO>> list() {
+        log.debug("开始处理【查询相册列表】的请求，无参数");
+        List<AlbumListItemVO> list = albumService.list();
+        return JsonResult.ok(list);
     }
+}

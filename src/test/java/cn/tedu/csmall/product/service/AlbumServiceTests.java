@@ -2,10 +2,13 @@ package cn.tedu.csmall.product.service;
 
 import cn.tedu.csmall.product.ex.ServiceException;
 import cn.tedu.csmall.product.pojo.dto.AlbumAddNewDTO;
+import cn.tedu.csmall.product.pojo.vo.AlbumListItemVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @Slf4j
 @SpringBootTest
@@ -36,6 +39,15 @@ public class AlbumServiceTests {
             log.debug("测试删除数据成功！");
         } catch (Exception e) {
             log.debug(e.getMessage());
+        }
+    }
+
+    @Test
+    void list(){
+        List<AlbumListItemVO> list = service.list();
+        for (AlbumListItemVO l:list
+             ) {
+            System.out.println(l);
         }
     }
 
