@@ -39,7 +39,6 @@ public class AlbumController {
     @ApiOperation("添加相册")
     @ApiOperationSupport(order = 100)
     @ApiImplicitParam(name = "id" ,value = "相册id",required = true,dataType = "long")
-
     @RequestMapping( "/add-newAlbum" )
     public JsonResult<Void>  addNew(@Valid AlbumAddNewDTO albumAddNewDTO) {
         log.debug("开始处理【添加相册】的请求，参数：{}", albumAddNewDTO);

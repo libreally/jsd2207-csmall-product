@@ -1,6 +1,9 @@
 package cn.tedu.csmall.product.service;
 
 import cn.tedu.csmall.product.pojo.dto.BrandAddNewDTO;
+import cn.tedu.csmall.product.pojo.vo.BrandListItemVO;
+
+import java.util.List;
 
 /**
  * 品牌业务接口
@@ -22,4 +25,10 @@ public interface IBrandService {
      * @param id 根基id删除
      */
     void delete(Long id);
+
+    /**
+     * 查询列表信息
+     * @return
+     */
+    List<BrandListItemVO> list();
 }
