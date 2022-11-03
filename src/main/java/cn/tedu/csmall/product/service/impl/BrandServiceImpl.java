@@ -51,7 +51,12 @@ public class BrandServiceImpl implements IBrandService {
         BeanUtils.copyProperties(brandAddNewDTO, brand);
         // 插入数据
         log.debug("即将向数据库中插入数据：{}", brand);
-        brandMapper.insert(brand);
+        int rows=brandMapper.insert(brand);
+        if (rows != 1) {
+            String message = "添加类别失败，服务器忙，请稍后再尝试！";
+            log.debug(message);
+            throw new ServiceException(ServiceCode.ERR_INSERT, message);
+        }
     }
 
     @Override
