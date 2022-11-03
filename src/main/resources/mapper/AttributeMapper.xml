@@ -86,7 +86,10 @@
     <select id="count" resultType="int">
         SELECT count(*) FROM mall_pms.pms_attribute
     </select>
-
+    <!--int countByName(String name);-->
+    <select id="countByName" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_attribute WHERE name=#{name}
+    </select>
     <!-- AttributeStandardVO getStandardById(Long id); -->
     <select id="getStandardById" resultMap="StandardResultMap">
         SELECT

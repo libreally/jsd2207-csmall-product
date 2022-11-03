@@ -63,6 +63,7 @@ public interface AttributeMapper {
      */
     int count();
 
+    int countByName(String name);
     /**
      * 根据id查询属性标准信息
      *
@@ -77,5 +78,4 @@ public interface AttributeMapper {
      * @return 属性列表
      */
     List<AttributeListItemVO> list();
-
 }
