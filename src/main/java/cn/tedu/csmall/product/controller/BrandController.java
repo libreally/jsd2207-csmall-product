@@ -29,7 +29,7 @@ public class BrandController {
         log.debug("创建控制器对象：BrandController");
     }
 
-    @ApiOperation("添加相册")
+    @ApiOperation("添加商品")
     @ApiOperationSupport(order = 100)
     @RequestMapping("/add-newBrand")
     public String addNew(BrandAddNewDTO brandAddNewDTO){
@@ -50,13 +50,13 @@ public class BrandController {
             return "添加商品失败！程序运行过程中出现了Throwable！";
         }
     }
-    @ApiOperation("根据id删除相册")
+    @ApiOperation("根据id删除商品")
     @ApiOperationSupport(order = 201)
-    @ApiImplicitParam(name = "id", value = "相册id", required = true, dataType = "long")
+    @ApiImplicitParam(name = "id", value = "商品id", required = true, dataType = "long")
     @RequestMapping("/{id:[0-9]+}/delete")
-    public JsonResult<Void>  delete(@Range(min = 1, message = "删除相册失败，尝试删除的相册的ID无效！")
+    public JsonResult<Void>  delete(@Range(min = 1, message = "删除商品失败，尝试删除的商品的ID无效！")
                                      @PathVariable Long id) {
-        log.debug("开始处理[根据id删除相册]的请求,参数:{}",id);
+        log.debug("开始处理[根据id商品相册]的请求,参数:{}",id);
         brandService.delete(id);
         return JsonResult.ok();
     }
@@ -66,7 +66,7 @@ public class BrandController {
     @ApiOperationSupport(order = 420)
     @GetMapping("")
     public JsonResult<List<BrandListItemVO>> list() {
-        log.debug("开始处理【查询相册列表】的请求，无参数");
+        log.debug("开始处理【查询商品列表】的请求，无参数");
         List<BrandListItemVO> list = brandService.list();
         return JsonResult.ok(list);
     }

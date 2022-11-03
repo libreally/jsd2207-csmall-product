@@ -22,7 +22,7 @@ public class CategoryController {
         log.debug("创建控制器对象：CategoryController");
     }
 
-    @ApiOperation("添加相册")
+    @ApiOperation("添加类别")
     @ApiOperationSupport(order = 100)
     @RequestMapping("/add-newCategory" )
     public String addNew(CategoryAddNewDTO categoryAddNewDTO) {

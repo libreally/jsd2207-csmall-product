@@ -28,7 +28,7 @@ public class AttributeTemplateController {
     private IAttributeTemplateService attributeTemplateService;
     public AttributeTemplateController() { log.debug("创建控制器对象：AttributeTemplateController"); }
 
-    @ApiOperation("添加相册")
+    @ApiOperation("添加属性模板")
     @ApiOperationSupport(order = 100)
     @RequestMapping("/add-new")
     public String addNew(AttributeTemplateAddNewDTO attributeTemplateAddNewDTO){
@@ -49,22 +49,22 @@ public class AttributeTemplateController {
             return "添加属性模板失败！程序运行过程中出现了Throwable！";
         }
     }
-    @ApiOperation("根据id删除相册")
+    @ApiOperation("根据id删除属性模板")
     @ApiOperationSupport(order = 201)
     @ApiImplicitParam(name = "id", value = "相册id", required = true, dataType = "long")
     @RequestMapping("/{id:[0-9]+}/delete")
-    public JsonResult<Void> delete1(@Range(min = 1, message = "删除属性模板失败，尝试删除的相册的ID无效！")
+    public JsonResult<Void> delete1(@Range(min = 1, message = "删除属性模板失败，尝试删除的属性模板的ID无效！")
                                      @PathVariable Long id) {
-        log.debug("开始处理[根据id删除相册]的请求,参数:{}",id);
+        log.debug("开始处理[根据id删除属性模板]的请求,参数:{}",id);
         attributeTemplateService.delete(id);
         return JsonResult.ok();
     }
 
-    @ApiOperation("查询相册列表")
+    @ApiOperation("查询属性模板列表")
     @ApiOperationSupport(order = 420)
     @GetMapping("")
     public JsonResult<List<AttributeTemplateListItemVO>> list() {
-        log.debug("开始处理【查询相册列表】的请求，无参数");
+        log.debug("开始处理【查询属性模板列表】的请求，无参数");
         List<AttributeTemplateListItemVO> list = attributeTemplateService.list();
         return JsonResult.ok(list);
     }
