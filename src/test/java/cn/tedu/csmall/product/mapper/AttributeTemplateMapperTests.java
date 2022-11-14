@@ -1,10 +1,12 @@
 package cn.tedu.csmall.product.mapper;
 
+
 import cn.tedu.csmall.product.pojo.entity.AttributeTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,14 @@ public class AttributeTemplateMapperTests {
         String name = "测试数据";
         int count = mapper.countByName(name);
         log.debug("根据名称【{}】统计数据的数量，结果：{}", name, count);
+    }
+
+    @Test
+    void countByNameAndNotId() {
+        Long id = 1L;
+        String name = "新-属性模板";
+        int count = mapper.countByNameAndNotId(id, name);
+        log.debug("根据名称【{}】且非ID【{}】统计数量完成，统计结果：{}", name, id, count);
     }
 
     @Test

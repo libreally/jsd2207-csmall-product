@@ -37,7 +37,7 @@
     <!-- int update(AttributeTemplate attributeTemplate); -->
     <update id="update">
         UPDATE
-        mall_pms.pms_attribute_template
+            mall_pms.pms_attribute_template
         <set>
             <if test="name != null">
                 name=#{name},
@@ -65,12 +65,17 @@
         SELECT count(*) FROM mall_pms.pms_attribute_template WHERE name=#{name}
     </select>
 
+    <!-- int countByNameAndNotId(@Param("id") Long id, @Param("name") String name); -->
+    <select id="countByNameAndNotId" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_attribute_template WHERE name=#{name} AND id!=#{id}
+    </select>
+
     <!-- AttributeTemplateStandardVO getStandardById(Long id); -->
     <select id="getStandardById" resultMap="StandardResultMap">
         SELECT
             <include refid="StandardQueryFields"/>
         FROM
-        mall_pms.pms_attribute_template
+            mall_pms.pms_attribute_template
         WHERE
             id=#{id}
     </select>
@@ -80,7 +85,7 @@
         SELECT
             <include refid="ListQueryFields"/>
         FROM
-        mall_pms.pms_attribute_template
+            mall_pms.pms_attribute_template
         ORDER BY
             sort DESC, id DESC
     </select>

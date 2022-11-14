@@ -41,7 +41,7 @@
     <!-- int update(CategoryAttributeTemplate categoryAttributeTemplate); -->
     <update id="update">
         UPDATE
-        mall_pms.pms_category_attribute_template
+            mall_pms.pms_category_attribute_template
         <set>
             <if test="categoryId != null">
                 category_id=#{categoryId},
@@ -58,12 +58,22 @@
         SELECT count(*) FROM mall_pms.pms_category_attribute_template
     </select>
 
+    <!-- int countByCategory(Long categoryId); -->
+    <select id="countByCategory" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_category_attribute_template WHERE category_id=#{categoryId}
+    </select>
+
+    <!-- int countByAttributeTemplate(Long attributeTemplateId); -->
+    <select id="countByAttributeTemplate" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_category_attribute_template WHERE attribute_template_id=#{attributeTemplateId}
+    </select>
+
     <!-- CategoryAttributeTemplateStandardVO getStandardById(Long id); -->
     <select id="getStandardById" resultMap="StandardResultMap">
         SELECT
             <include refid="StandardQueryFields"/>
         FROM
-        mall_pms.pms_category_attribute_template
+            mall_pms.pms_category_attribute_template
         WHERE
             id=#{id}
     </select>
@@ -73,7 +83,7 @@
         SELECT
             <include refid="ListQueryFields"/>
         FROM
-        mall_pms.pms_category_attribute_template
+            mall_pms.pms_category_attribute_template
         ORDER BY
             id DESC
     </select>

@@ -75,6 +75,34 @@ public class SpuMapperTests {
     }
 
     @Test
+    void countByAlbum() {
+        Long albumId = 1L;
+        int countByBrand = mapper.countByAlbum(albumId);
+        log.debug("根据相册【{}】统计完成，数量：{}", albumId, countByBrand);
+    }
+
+    @Test
+    void countByBrand() {
+        Long brandId = 1L;
+        int countByBrand = mapper.countByBrand(brandId);
+        log.debug("根据品牌【{}】统计完成，数量：{}", brandId, countByBrand);
+    }
+
+    @Test
+    void countByCategory() {
+        Long categoryId = 1L;
+        int count = mapper.countByCategory(categoryId);
+        log.debug("根据类别【{}】统计关联数据的数量：{}", categoryId, count);
+    }
+
+    @Test
+    void countByAttributeTemplate() {
+        Long attributeTemplateId = 1L;
+        int count = mapper.countByAttributeTemplate(attributeTemplateId);
+        log.debug("根据属性模板【{}】统计关联数据的数量：{}", attributeTemplateId, count);
+    }
+
+    @Test
     void getStandardById() {
         Long id = 1L;
         Object queryResult = mapper.getStandardById(id);

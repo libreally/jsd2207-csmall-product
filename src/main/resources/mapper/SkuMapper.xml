@@ -49,7 +49,7 @@
     <!-- int update(Sku sku); -->
     <update id="update">
         UPDATE
-        mall_pms.pms_sku
+            mall_pms.pms_sku
         <set>
             <if test="spuId != null">
                 spu_id=#{spuId},
@@ -98,7 +98,7 @@
         SELECT
             <include refid="StandardQueryFields"/>
         FROM
-        mall_pms.pms_sku
+            mall_pms.pms_sku
         WHERE
             id=#{id}
     </select>
@@ -108,7 +108,7 @@
         SELECT
             <include refid="ListQueryFields"/>
         FROM
-        mall_pms.pms_sku
+            mall_pms.pms_sku
         ORDER BY
             sort DESC, id DESC
     </select>

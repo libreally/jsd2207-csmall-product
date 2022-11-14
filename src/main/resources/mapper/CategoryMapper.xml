@@ -85,12 +85,22 @@
         SELECT count(*) FROM mall_pms.pms_category WHERE name=#{name}
     </select>
 
+    <!-- int countByNameAndNotId(@Param("id") Long id, @Param("name") String name); -->
+    <select id="countByNameAndNotId" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_category WHERE name=#{name} AND id!=#{id}
+    </select>
+
+    <!-- int countByParentId(Long parentId); -->
+    <select id="countByParentId" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_category WHERE parent_id=#{parentId}
+    </select>
+
     <!-- CategoryStandardVO getStandardById(Long id); -->
     <select id="getStandardById" resultMap="StandardResultMap">
         SELECT
             <include refid="StandardQueryFields"/>
         FROM
-        mall_pms.pms_category
+            mall_pms.pms_category
         WHERE
             id=#{id}
     </select>
@@ -100,7 +110,7 @@
         SELECT
             <include refid="ListQueryFields"/>
         FROM
-        mall_pms.pms_category
+            mall_pms.pms_category
         ORDER BY
             sort DESC, id DESC
     </select>

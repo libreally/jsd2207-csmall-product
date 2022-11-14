@@ -1,5 +1,6 @@
 package cn.tedu.csmall.product.mapper;
 
+
 import cn.tedu.csmall.product.pojo.entity.Attribute;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -72,6 +73,30 @@ public class AttributeMapperTests {
     }
 
     @Test
+    void countByTemplateId() {
+        Long templateId = 1L;
+        int count = mapper.countByTemplateId(templateId);
+        log.debug("根据属性模板【{}】统计属性数量完成，统计结果：{}", templateId, count);
+    }
+
+    @Test
+    void countByNameAndTemplate() {
+        String name = "小米15的颜色属性";
+        Long templateId = 1L;
+        int count = mapper.countByNameAndTemplate(name, templateId);
+        log.debug("根据名称【{}】在属性模板【{}】中统计属性数量完成，统计结果：{}", name, templateId, count);
+    }
+
+    @Test
+    void countByNameAndTemplateAndNotId() {
+        Long id = 1L;
+        String name = "小米15的颜色属性";
+        Long templateId = 1L;
+        int count = mapper.countByNameAndTemplateAndNotId(id, name, templateId);
+        log.debug("根据名称【{}】且属性模板ID【{}】且非ID【{}】统计数量完成，统计结果：{}", name, templateId, id, count);
+    }
+
+    @Test
     void getStandardById() {
         Long id = 1L;
         Object queryResult = mapper.getStandardById(id);
@@ -82,6 +107,16 @@ public class AttributeMapperTests {
     void list() {
         List<?> list = mapper.list();
         log.debug("查询列表完成，列表中的数据的数量：{}", list.size());
+        for (Object item : list) {
+            log.debug("{}", item);
+        }
+    }
+
+    @Test
+    void listByTemplateId() {
+        Long templateId = 1L;
+        List<?> list = mapper.listByTemplateId(templateId);
+        log.debug("根据属性模板ID【{}】查询列表完成，列表中的数据的数量：{}", templateId, list.size());
         for (Object item : list) {
             log.debug("{}", item);
         }

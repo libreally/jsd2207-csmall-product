@@ -49,7 +49,7 @@
     <!-- int update(Attribute attribute); -->
     <update id="update">
         UPDATE
-        mall_pms.pms_attribute
+            mall_pms.pms_attribute
         <set>
             <if test="templateId != null">
                 template_id=#{templateId},
@@ -86,16 +86,30 @@
     <select id="count" resultType="int">
         SELECT count(*) FROM mall_pms.pms_attribute
     </select>
-    <!--int countByName(String name);-->
-    <select id="countByName" resultType="int">
-        SELECT count(*) FROM mall_pms.pms_attribute WHERE name=#{name}
+
+    <!-- int countByTemplateId(Long templateId); -->
+    <select id="countByTemplateId" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_attribute WHERE template_id=#{templateId}
     </select>
+
+    <!-- int countByNameAndTemplate(@Param("name") String name, @Param("templateId") Long templateId); -->
+    <select id="countByNameAndTemplate" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_attribute WHERE name=#{name} AND template_id=#{templateId}
+    </select>
+
+    <!-- int countByNameAndTemplateAndNotId(@Param("id") Long id,
+                                       @Param("name") String name,
+                                       @Param("templateId") Long templateId); -->
+    <select id="countByNameAndTemplateAndNotId" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_attribute WHERE name=#{name} AND template_id=#{templateId} AND id!=#{id}
+    </select>
+
     <!-- AttributeStandardVO getStandardById(Long id); -->
     <select id="getStandardById" resultMap="StandardResultMap">
         SELECT
             <include refid="StandardQueryFields"/>
         FROM
-        mall_pms.pms_attribute
+            mall_pms.pms_attribute
         WHERE
             id=#{id}
     </select>
@@ -105,9 +119,21 @@
         SELECT
             <include refid="ListQueryFields"/>
         FROM
-        mall_pms.pms_attribute
+            mall_pms.pms_attribute
         ORDER BY
             sort DESC, id DESC
+    </select>
+
+    <!-- List<AttributeListItemVO> listByTemplateId(Long templateId); -->
+    <select id="listByTemplateId" resultMap="ListResultMap">
+        SELECT
+            <include refid="ListQueryFields" />
+        FROM
+            mall_pms.pms_attribute
+        WHERE
+            template_id=#{templateId}
+        ORDER BY
+            sort DESC, id
     </select>
 
     <sql id="StandardQueryFields">

@@ -53,6 +53,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         log.debug("JwtAuthorizationFilter开始执行过滤……");
+
+        // 清空Security上下文
+        // Security上下文中的认证信息也会被清除
+        // 避免前序携带JWT且解析成功后将认证信息存入Security上下文后，后续不携带JWT也能访问的“问题”
+        SecurityContextHolder.clearContext();
+
         // 获取客户端携带的JWT
         String jwt = request.getHeader("Authorization");
         log.debug("获取客户端携带的JWT：{}", jwt);

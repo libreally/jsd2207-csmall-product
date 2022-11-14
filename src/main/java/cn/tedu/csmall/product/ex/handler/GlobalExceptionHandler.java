@@ -1,6 +1,5 @@
 package cn.tedu.csmall.product.ex.handler;
 
-
 import cn.tedu.csmall.product.ex.ServiceException;
 import cn.tedu.csmall.product.web.JsonResult;
 import cn.tedu.csmall.product.web.ServiceCode;
@@ -94,6 +93,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public String handleThrowable(Throwable e) {
         String message = "你有异常没有处理，请根据服务器端控制台的信息，补充对此类异常的处理！！！";
+        log.debug(message);
         e.printStackTrace();
         return message;
     }

@@ -4,8 +4,15 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 添加属性的DTO类
+ *
+ * @author java@tedu.cn
+ * @version 0.0.1
+ */
 @Data
 public class AttributeAddNewDTO implements Serializable {
+
     /**
      * 所属属性模板id
      */
@@ -50,4 +57,5 @@ public class AttributeAddNewDTO implements Serializable {
      * 是否允许自定义，1=允许，0=禁止
      */
     private Integer isAllowCustomize;
+
 }

@@ -64,11 +64,36 @@ public interface SpuMapper {
     int count();
 
     /**
-     * 根据albumId统计数量
-     * @param id
-     * @return int
+     * 根据相册统计SPU数量
+     *
+     * @param albumId 相册ID
+     * @return 关联了此相册的SPU数量
      */
-    int countByAlbumId(Long id);
+    int countByAlbum(Long albumId);
+
+    /**
+     * 根据品牌统计SPU数量
+     *
+     * @param brandId 品牌ID
+     * @return 关联了此品牌的SPU数量
+     */
+    int countByBrand(Long brandId);
+
+    /**
+     * 根据类别统计SPU数量
+     *
+     * @param categoryId 品牌ID
+     * @return 关联了此类别的SPU数量
+     */
+    int countByCategory(Long categoryId);
+
+    /**
+     * 根据属性模板统计SPU数量
+     *
+     * @param attributeTemplateId 属性模板id
+     * @return 此属性模板关联的数据的SPU数量
+     */
+    int countByAttributeTemplate(Long attributeTemplateId);
 
     /**
      * 根据id查询SPU标准信息

@@ -41,7 +41,7 @@
     <!-- int update(Brand brand); -->
     <update id="update">
         UPDATE
-        mall_pms.pms_spu_detail
+            mall_pms.pms_spu_detail
         <set>
             <if test="spuId != null">
                 spu_id=#{spuId},
@@ -63,7 +63,7 @@
         SELECT
             <include refid="StandardQueryFields"/>
         FROM
-        mall_pms.pms_spu_detail
+            mall_pms.pms_spu_detail
         WHERE
             id=#{id}
     </select>
@@ -73,7 +73,7 @@
         SELECT
             <include refid="ListQueryFields"/>
         FROM
-        mall_pms.pms_spu_detail
+            mall_pms.pms_spu_detail
         ORDER BY
             id DESC
     </select>

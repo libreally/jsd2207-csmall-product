@@ -3,6 +3,7 @@ package cn.tedu.csmall.product.mapper;
 import cn.tedu.csmall.product.pojo.entity.Attribute;
 import cn.tedu.csmall.product.pojo.vo.AttributeListItemVO;
 import cn.tedu.csmall.product.pojo.vo.AttributeStandardVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -63,7 +64,35 @@ public interface AttributeMapper {
      */
     int count();
 
-    int countByName(String name);
+    /**
+     * 根据属性模板统计属性数据的数量
+     *
+     * @param templateId 属性模板id
+     * @return 此属性模板中属性数据的数量
+     */
+    int countByTemplateId(Long templateId);
+
+    /**
+     * 根据属性名称和属性模板统计当前表中属性数据的数量
+     *
+     * @param name       属性名称
+     * @param templateId 属性模板id
+     * @return 当前表中匹配名称的属性数据的数量
+     */
+    int countByNameAndTemplate(@Param("name") String name, @Param("templateId") Long templateId);
+
+    /**
+     * 统计当前表中非此属性id的匹配名称、匹配属性模板的属性数据的数量
+     *
+     * @param id 当前属性id
+     * @param name 属性名称
+     * @param templateId 属性模板id
+     * @return 当前表中非此属性id的匹配名称、匹配属性模板的属性数据的数量
+     */
+    int countByNameAndTemplateAndNotId(@Param("id") Long id,
+                                       @Param("name") String name,
+                                       @Param("templateId") Long templateId);
+
     /**
      * 根据id查询属性标准信息
      *
@@ -78,4 +107,13 @@ public interface AttributeMapper {
      * @return 属性列表
      */
     List<AttributeListItemVO> list();
+
+    /**
+     * 根据属性模板id查询属性列表
+     *
+     * @param templateId 属性模板id
+     * @return 属性列表的集合
+     */
+    List<AttributeListItemVO> listByTemplateId(Long templateId);
+
 }

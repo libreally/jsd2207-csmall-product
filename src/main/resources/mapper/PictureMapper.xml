@@ -45,7 +45,7 @@
     <!-- int update(Picture picture); -->
     <update id="update">
         UPDATE
-        mall_pms.pms_picture
+            mall_pms.pms_picture
         <set>
             <if test="albumId != null">
                 album_id=#{albumId},
@@ -76,16 +76,18 @@
     <select id="count" resultType="int">
         SELECT count(*) FROM mall_pms.pms_picture
     </select>
-    <!--int countByAlbumId(Long albumId);-->
+
+    <!-- int countByAlbumId(Long albumId); -->
     <select id="countByAlbumId" resultType="int">
-        SELECT count(*) FROM mall_pms.pms_picture where album_id=#{albumId}
+        SELECT count(*) FROM mall_pms.pms_picture WHERE album_id=#{albumId}
     </select>
+
     <!-- PictureStandardVO getStandardById(Long id); -->
     <select id="getStandardById" resultMap="StandardResultMap">
         SELECT
             <include refid="StandardQueryFields"/>
         FROM
-        mall_pms.pms_picture
+            mall_pms.pms_picture
         WHERE
             id=#{id}
     </select>
@@ -95,7 +97,7 @@
         SELECT
             <include refid="ListQueryFields"/>
         FROM
-        mall_pms.pms_picture
+            mall_pms.pms_picture
         ORDER BY
             sort DESC, id DESC
     </select>
@@ -105,7 +107,7 @@
         SELECT
             <include refid="ListQueryFields"/>
         FROM
-        mall_pms.pms_picture
+            mall_pms.pms_picture
         WHERE
             album_id=#{albumId}
         ORDER BY

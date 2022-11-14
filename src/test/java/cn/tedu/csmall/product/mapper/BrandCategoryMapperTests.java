@@ -1,10 +1,12 @@
 package cn.tedu.csmall.product.mapper;
 
+
 import cn.tedu.csmall.product.pojo.entity.BrandCategory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,28 @@ public class BrandCategoryMapperTests {
     void count() {
         int count = mapper.count();
         log.debug("统计完成，表中的数据的数量：{}", count);
+    }
+
+    @Test
+    void countByBrand() {
+        Long brandId = 1L;
+        int count = mapper.countByBrand(brandId);
+        log.debug("根据品牌【{}】统计关联数据的数量：{}", brandId, count);
+    }
+
+    @Test
+    void countByCategory() {
+        Long categoryId = 1L;
+        int count = mapper.countByCategory(categoryId);
+        log.debug("根据类别【{}】统计关联数据的数量：{}", categoryId, count);
+    }
+
+    @Test
+    void countByBrandAndCategory() {
+        Long brandId = 1L;
+        Long categoryId = 1L;
+        int count = mapper.countByBrandAndCategory(brandId, categoryId);
+        log.debug("根据品牌【{}】与类别【{}】统计关联数据的数量：{}", brandId, categoryId, count);
     }
 
     @Test

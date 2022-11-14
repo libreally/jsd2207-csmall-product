@@ -1,71 +1,90 @@
 package cn.tedu.csmall.product.controller;
 
-
-import cn.tedu.csmall.product.ex.ServiceException;
 import cn.tedu.csmall.product.pojo.dto.AttributeTemplateAddNewDTO;
+import cn.tedu.csmall.product.pojo.dto.AttributeTemplateUpdateInfoDTO;
 import cn.tedu.csmall.product.pojo.vo.AttributeTemplateListItemVO;
+import cn.tedu.csmall.product.pojo.vo.AttributeTemplateStandardVO;
 import cn.tedu.csmall.product.service.IAttributeTemplateService;
-
 import cn.tedu.csmall.product.web.JsonResult;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 处理属性模板相关请求的控制器
+ *
+ * @author java@tedu.cn
+ * @version 0.0.1
+ */
 @Slf4j
 @RestController
-@RequestMapping("/AttributeTemplate")
+@RequestMapping("/attribute-templates")
+@Api(tags = "06. 属性模板管理模块")
 public class AttributeTemplateController {
+
     @Autowired
     private IAttributeTemplateService attributeTemplateService;
-    public AttributeTemplateController() { log.debug("创建控制器对象：AttributeTemplateController"); }
 
+    public AttributeTemplateController() {
+        log.info("创建控制器对象：AttributeTemplateController");
+    }
+
+    // http://localhost:9080/attribute-templates/add-new
     @ApiOperation("添加属性模板")
     @ApiOperationSupport(order = 100)
-    @RequestMapping("/add-new")
-    public String addNew(AttributeTemplateAddNewDTO attributeTemplateAddNewDTO){
+    @PostMapping("/add-new")
+    public JsonResult<Void> addNew(AttributeTemplateAddNewDTO attributeTemplateAddNewDTO) {
         log.debug("开始处理【添加属性模板】的请求，参数：{}", attributeTemplateAddNewDTO);
-        try {
-            attributeTemplateService.addNew(attributeTemplateAddNewDTO);
-            log.debug("添加数据成功！");
-            return "添加属性模板成功！";
-        } catch (ServiceException e) {
-            String message=e.getMessage();
-            log.debug(message);
-            return message;
-        } catch (RuntimeException e) {
-            log.debug("添加数据失败！程序运行过程中出现了RuntimeException！");
-            return "添加属性模板失败！程序运行过程中出现了RuntimeException！";
-        } catch (Throwable e) {
-            log.debug("添加数据失败！程序运行过程中出现了Throwable！");
-            return "添加属性模板失败！程序运行过程中出现了Throwable！";
-        }
+        attributeTemplateService.addNew(attributeTemplateAddNewDTO);
+        return JsonResult.ok();
     }
+
+    // http://localhost:9080/attribute-templates/9527/delete
     @ApiOperation("根据id删除属性模板")
-    @ApiOperationSupport(order = 201)
-    @ApiImplicitParam(name = "id", value = "相册id", required = true, dataType = "long")
-    @RequestMapping("/{id:[0-9]+}/delete")
-    public JsonResult<Void> delete1(@Range(min = 1, message = "删除属性模板失败，尝试删除的属性模板的ID无效！")
-                                     @PathVariable Long id) {
-        log.debug("开始处理[根据id删除属性模板]的请求,参数:{}",id);
+    @ApiOperationSupport(order = 200)
+    @PostMapping("/{id:[0-9]+}/delete")
+    public JsonResult<Void> delete(@PathVariable Long id) {
+        log.debug("开始处理【根据id删除属性模板】的请求，参数：{}", id);
         attributeTemplateService.delete(id);
         return JsonResult.ok();
     }
 
+    // http://localhost:9080/attribute-templates/9527/update
+    @ApiOperation("修改属性模板详情")
+    @ApiOperationSupport(order = 300)
+    @ApiImplicitParam(name = "id", value = "属性模板id", required = true, dataType = "long")
+    @PostMapping("/{id:[0-9]+}/update")
+    public JsonResult<Void> updateInfoById(@PathVariable Long id, AttributeTemplateUpdateInfoDTO attributeTemplateUpdateInfoDTO) {
+        log.debug("开始处理【修改属性模板详情】的请求，参数ID：{}, 新数据：{}", id, attributeTemplateUpdateInfoDTO);
+        attributeTemplateService.updateInfoById(id, attributeTemplateUpdateInfoDTO);
+        return JsonResult.ok();
+    }
+
+    // http://localhost:9080/attribute-templates/9527
+    @ApiOperation("根据id查询属性模板详情")
+    @ApiOperationSupport(order = 400)
+    @ApiImplicitParam(name = "id", value = "属性模板id", required = true, dataType = "long")
+    @GetMapping("/{id:[0-9]+}")
+    public JsonResult<AttributeTemplateStandardVO> getStandardById(@PathVariable Long id) {
+        log.debug("开始处理【根据id查询属性模板详情】的请求，参数：{}", id);
+        AttributeTemplateStandardVO attributeTemplate = attributeTemplateService.getStandardById(id);
+        return JsonResult.ok(attributeTemplate);
+    }
+
+    // http://localhost:9080/attribute-templates
     @ApiOperation("查询属性模板列表")
-    @ApiOperationSupport(order = 420)
+    @ApiOperationSupport(order = 410)
     @GetMapping("")
     public JsonResult<List<AttributeTemplateListItemVO>> list() {
         log.debug("开始处理【查询属性模板列表】的请求，无参数");
         List<AttributeTemplateListItemVO> list = attributeTemplateService.list();
         return JsonResult.ok(list);
     }
+
 }

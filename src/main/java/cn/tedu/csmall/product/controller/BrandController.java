@@ -1,73 +1,113 @@
 package cn.tedu.csmall.product.controller;
 
-import cn.tedu.csmall.product.ex.ServiceException;
 import cn.tedu.csmall.product.pojo.dto.BrandAddNewDTO;
+import cn.tedu.csmall.product.pojo.dto.BrandUpdateDTO;
 import cn.tedu.csmall.product.pojo.vo.BrandListItemVO;
+import cn.tedu.csmall.product.pojo.vo.BrandStandardVO;
 import cn.tedu.csmall.product.service.IBrandService;
 import cn.tedu.csmall.product.web.JsonResult;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 处理品牌相关请求的控制器
+ *
+ * @author java@tedu.cn
+ * @version 0.0.1
+ */
 @Slf4j
 @RestController
-@RequestMapping("/brand")
+@RequestMapping("/brands")
+@Api(tags = "02. 品牌管理模块")
 public class BrandController {
+
     @Autowired
     private IBrandService brandService;
-    
-    public BrandController(){
-        log.debug("创建控制器对象：BrandController");
+
+    public BrandController() {
+        log.info("创建控制器对象：BrandController");
     }
 
-    @ApiOperation("添加商品")
+    // http://localhost:9080/brands/add-new
+    @ApiOperation("添加品牌")
     @ApiOperationSupport(order = 100)
-    @RequestMapping("/add-newBrand")
-    public String addNew(BrandAddNewDTO brandAddNewDTO){
-        log.debug("开始处理【添加商品】的请求，参数：{}", brandAddNewDTO);
-        try {
-            brandService.addNew(brandAddNewDTO);
-            log.debug("添加数据成功！");
-            return "添加商品成功！";
-        } catch (ServiceException e) {
-            String message=e.getMessage();
-            log.debug(message);
-            return message;
-        } catch (RuntimeException e) {
-            log.debug("添加数据失败！程序运行过程中出现了RuntimeException！");
-            return "添加商品失败！程序运行过程中出现了RuntimeException！";
-        } catch (Throwable e) {
-            log.debug("添加数据失败！程序运行过程中出现了Throwable！");
-            return "添加商品失败！程序运行过程中出现了Throwable！";
-        }
+    @PostMapping("/add-new")
+    public JsonResult<Void> addNew(@Validated BrandAddNewDTO brandAddNewDTO) {
+        log.debug("开始处理【添加品牌】的请求，参数：{}", brandAddNewDTO);
+        brandService.addNew(brandAddNewDTO);
+        return JsonResult.ok();
     }
-    @ApiOperation("根据id删除商品")
-    @ApiOperationSupport(order = 201)
-    @ApiImplicitParam(name = "id", value = "商品id", required = true, dataType = "long")
-    @RequestMapping("/{id:[0-9]+}/delete")
-    public JsonResult<Void>  delete(@Range(min = 1, message = "删除商品失败，尝试删除的商品的ID无效！")
-                                     @PathVariable Long id) {
-        log.debug("开始处理[根据id商品相册]的请求,参数:{}",id);
+
+    // http://localhost:9080/brands/9527/delete
+    @ApiOperation("根据id删除品牌")
+    @ApiOperationSupport(order = 200)
+    @ApiImplicitParam(name = "id", value = "品牌id", required = true, dataType = "long")
+    @PostMapping("/{id:[0-9]+}/delete")
+    public JsonResult<Void> delete(@PathVariable Long id) {
+        log.debug("开始处理【根据id删除品牌】的请求，参数：{}", id);
         brandService.delete(id);
         return JsonResult.ok();
     }
 
-    // http://localhost:8080/brand
+    // http://localhost:9080/brands/9527/update
+    @ApiOperation("修改品牌详情")
+    @ApiOperationSupport(order = 300)
+    @ApiImplicitParam(name = "id", value = "品牌id", required = true, dataType = "long")
+    @PostMapping("/{id:[0-9]+}/update")
+    public JsonResult<Void> updateById(@PathVariable Long id, BrandUpdateDTO brandUpdateDTO) {
+        log.debug("开始处理【修改品牌详情】的请求，参数ID：{}, 新数据：{}", id, brandUpdateDTO);
+        brandService.updateInfoById(id, brandUpdateDTO);
+        return JsonResult.ok();
+    }
+
+    // http://localhost:9080/brands/9527/enable
+    @ApiOperation("启用品牌")
+    @ApiOperationSupport(order = 310)
+    @ApiImplicitParam(name = "id", value = "品牌id", required = true, dataType = "long")
+    @PostMapping("/{id:[0-9]+}/enable")
+    public JsonResult<Void> setEnable(@PathVariable Long id) {
+        log.debug("开始处理【启用品牌】的请求，参数：{}", id);
+        brandService.setEnable(id);
+        return JsonResult.ok();
+    }
+
+    // http://localhost:9080/brands/9527/disable
+    @ApiOperation("禁用品牌")
+    @ApiOperationSupport(order = 311)
+    @ApiImplicitParam(name = "id", value = "品牌id", required = true, dataType = "long")
+    @PostMapping("/{id:[0-9]+}/disable")
+    public JsonResult<Void> setDisable(@PathVariable Long id) {
+        log.debug("开始处理【禁用品牌】的请求，参数：{}", id);
+        brandService.setDisable(id);
+        return JsonResult.ok();
+    }
+
+    // http://localhost:9080/brands/9527
+    @ApiOperation("根据id查询品牌详情")
+    @ApiOperationSupport(order = 400)
+    @GetMapping("/{id:[0-9]+}")
+    public JsonResult<BrandStandardVO> getStandardById(@PathVariable Long id) {
+        log.debug("开始处理【根据id查询品牌详情】的请求，参数：{}", id);
+        BrandStandardVO brand = brandService.getStandardById(id);
+        return JsonResult.ok(brand);
+    }
+
+    // http://localhost:9080/brands
     @ApiOperation("查询品牌列表")
-    @ApiOperationSupport(order = 420)
+    @ApiOperationSupport(order = 410)
     @GetMapping("")
     public JsonResult<List<BrandListItemVO>> list() {
-        log.debug("开始处理【查询商品列表】的请求，无参数");
+        log.debug("开始处理【查询品牌列表】的请求，无参数");
         List<BrandListItemVO> list = brandService.list();
         return JsonResult.ok(list);
     }
+
 }

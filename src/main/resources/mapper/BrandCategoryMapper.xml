@@ -41,7 +41,7 @@
     <!-- int update(BrandCategory brandCategory); -->
     <update id="update">
         UPDATE
-        mall_pms.pms_brand_category
+            mall_pms.pms_brand_category
         <set>
             <if test="brandId != null">
                 brand_id=#{brandId},
@@ -58,12 +58,27 @@
         SELECT count(*) FROM mall_pms.pms_brand_category
     </select>
 
+    <!-- int countByBrand(Long brandId); -->
+    <select id="countByBrand" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_brand_category WHERE brand_id=#{brandId}
+    </select>
+
+    <!-- int countByCategory(Long categoryId); -->
+    <select id="countByCategory" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_brand_category WHERE category_id=#{categoryId}
+    </select>
+
+    <!-- int countByBrandAndCategory(@Param("brandId") Long brandId, @Param("categoryId") Long categoryId); -->
+    <select id="countByBrandAndCategory" resultType="int">
+        SELECT count(*) FROM mall_pms.pms_brand_category WHERE brand_id=#{brandId} AND category_id=#{categoryId}
+    </select>
+
     <!-- BrandCategoryStandardVO getStandardById(Long id); -->
     <select id="getStandardById" resultMap="StandardResultMap">
         SELECT
             <include refid="StandardQueryFields"/>
         FROM
-        mall_pms.pms_brand_category
+            mall_pms.pms_brand_category
         WHERE
             id=#{id}
     </select>
@@ -73,7 +88,7 @@
         SELECT
             <include refid="ListQueryFields"/>
         FROM
-        mall_pms.pms_brand_category
+            mall_pms.pms_brand_category
         ORDER BY
             id DESC
     </select>

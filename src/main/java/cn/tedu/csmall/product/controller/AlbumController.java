@@ -1,8 +1,9 @@
 package cn.tedu.csmall.product.controller;
 
-
 import cn.tedu.csmall.product.pojo.dto.AlbumAddNewDTO;
+import cn.tedu.csmall.product.pojo.dto.AlbumUpdateDTO;
 import cn.tedu.csmall.product.pojo.vo.AlbumListItemVO;
+import cn.tedu.csmall.product.pojo.vo.AlbumStandardVO;
 import cn.tedu.csmall.product.service.IAlbumService;
 import cn.tedu.csmall.product.web.JsonResult;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -16,76 +17,71 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 处理相册请求控制器
+ * 处理相册相关请求的控制器
+ *
+ * @author java@tedu.cn
+ * @version 0.0.1
  */
-
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/album")
+@RequestMapping("/albums")
 @Api(tags = "04. 相册管理模块")
 public class AlbumController {
+
     @Autowired
     private IAlbumService albumService;
 
     public AlbumController() {
         log.debug("创建控制器对象：AlbumController");
     }
-    // http://localhost:8080/add-new?name=相册001&description=相册001的简介&sort=199
 
+    // http://localhost:8080/albums/add-new?name=相册001&description=相册001的简介&sort=199
     @ApiOperation("添加相册")
     @ApiOperationSupport(order = 100)
-    @ApiImplicitParam(name = "id" ,value = "相册id",required = true,dataType = "long")
-    @RequestMapping( "/add-newAlbum" )
-    public JsonResult<Void>  addNew(@Valid AlbumAddNewDTO albumAddNewDTO) {
+    @PostMapping("/add-new")
+    public JsonResult<Void> addNew(@Valid AlbumAddNewDTO albumAddNewDTO) {
         log.debug("开始处理【添加相册】的请求，参数：{}", albumAddNewDTO);
         albumService.addNew(albumAddNewDTO);
-        log.debug("添加数据成功！");
+        log.debug("添加相册成功！");
         return JsonResult.ok();
     }
-       /* @ExceptionHandler
-        public String xxx(ServiceException e) {
-            log.debug("处理请求的方法抛出了ServiceException，将统一处理");
-            return e.getMessage();
-        }
 
-        @RequestMapping("/test")
-        public String test() {
-            throw new ServiceException("这是一个测试抛出的异常");
-        }*/
-
+    // http://localhost:8080/albums/9527/delete
     @ApiOperation("根据id删除相册")
-    @ApiOperationSupport(order = 201)
+    @ApiOperationSupport(order = 200)
     @ApiImplicitParam(name = "id", value = "相册id", required = true, dataType = "long")
-    @RequestMapping("/{id:[0-9]+}/delete")
-    public JsonResult<Void>  delete1(@Range(min = 1, message = "删除相册失败，尝试删除的相册的ID无效！")
-                              @PathVariable Long id) {
-        log.debug("开始处理[根据id删除相册]的请求,参数:{}",id);
+    @PostMapping("/{id:[0-9]+}/delete")
+    public JsonResult<Void> delete(@Range(min = 1, message = "删除相册失败，尝试删除的相册的ID无效！")
+                                   @PathVariable Long id) {
+        log.debug("开始处理【根据id删除相册】的请求，参数：{}", id);
         albumService.delete(id);
         return JsonResult.ok();
     }
 
-    // http://localhost:8080/album/9527/delete
-    @ApiOperation("[过期]删除相册")
-    @ApiOperationSupport(order = 202)
-    @RequestMapping("/{name:[a-z]+}/delete")
-    public String delete2(@PathVariable String name) {
-        String message = "尝试删除id值为【" + name + "】的相册";
-        log.debug(message);
-        return message;
+    // http://localhost:9080/albums/9527/update
+    @ApiOperation("修改相册详情")
+    @ApiOperationSupport(order = 300)
+    @ApiImplicitParam(name = "id", value = "相册id", required = true, dataType = "long")
+    @PostMapping("/{id:[0-9]+}/update")
+    public JsonResult<Void> updateById(@PathVariable Long id, AlbumUpdateDTO albumUpdateDTO) {
+        log.debug("开始处理【修改相册详情】的请求，参数ID：{}, 新数据：{}", id, albumUpdateDTO);
+        albumService.updateInfoById(id, albumUpdateDTO);
+        return JsonResult.ok();
     }
-    // http://localhost:8080/album/9527/delete
-    @ApiOperation("[过期]删除相册")
-    @ApiOperationSupport(order = 203)
-    @RequestMapping("/test+}/delete")
-    public String delete3(@PathVariable String test) {
-        String message = "尝试删除id值为【" + test + "】的相册";
-        log.debug(message);
-        return message;
+
+    // http://localhost:9080/albums/9527
+    @ApiOperation("根据id查询相册详情")
+    @ApiOperationSupport(order = 400)
+    @ApiImplicitParam(name = "id", value = "相册id", required = true, dataType = "long")
+    @GetMapping("/{id:[0-9]+}")
+    public JsonResult<AlbumStandardVO> getStandardById(@PathVariable Long id) {
+        log.debug("开始处理【根据id查询相册详情】的请求，参数：{}", id);
+        AlbumStandardVO album = albumService.getStandardById(id);
+        return JsonResult.ok(album);
     }
 
     // http://localhost:8080/albums
@@ -97,4 +93,25 @@ public class AlbumController {
         List<AlbumListItemVO> list = albumService.list();
         return JsonResult.ok(list);
     }
+
+    // http://localhost:8080/albums/hello/delete
+    @ApiOperation("【已过期】根据名称删除相册")
+    @ApiOperationSupport(order = 901)
+    @PostMapping("/{name:[a-z]+}/delete")
+    public String delete2(@PathVariable String name) {
+        String message = "尝试删除名称值为【" + name + "】的相册";
+        log.debug(message);
+        return message;
+    }
+
+    // http://localhost:8080/albums/test/delete
+    @ApiOperation("【已过期】测试删除相册")
+    @ApiOperationSupport(order = 902)
+    @PostMapping("/test/delete")
+    public String delete3() {
+        String message = "尝试测试删除相册";
+        log.debug(message);
+        return message;
+    }
+
 }
