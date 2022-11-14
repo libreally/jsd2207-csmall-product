@@ -26,11 +26,20 @@
     <!-- 当前项目的依赖项 -->
     <!-- scope属性值为test：此依赖项仅用于测试，仅src/test下的代码可使用此依赖项，且此依赖项不参与项目打包、部署等 -->
     <dependencies>
-        <!-- Spring Boot WEB框架的基础依赖项 -->
+        <!-- Spring Boot WEB的依赖项 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.7.3</version>
+        </dependency>
+        <!-- Spring Boot Validation的依赖项，用于检查请求参数的基本格式 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- Spring Boot Security的依赖项，用于处理认证与授权 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <!-- Mybatis整合Spring Boot的依赖项 -->
         <dependency>
@@ -44,11 +53,23 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- Spring Boot测试的依赖项 -->
+        <!-- Knife4j Spring Boot：在线API -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+        <!-- fastjson：实现对象与JSON的相互转换 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.75</version>
+        </dependency>
+        <!-- JJWT（Java JWT） -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
         </dependency>
         <!-- Lombok的依赖项，主要用于简化POJO类的编写 -->
         <dependency>
@@ -57,15 +78,21 @@
             <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Knife4j Spring Boot：在线API -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.9</version>
-        </dependency>
+        <!-- Spring Boot测试的依赖项 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--redis引用-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
         </dependency>
     </dependencies>
 

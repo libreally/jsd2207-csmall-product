@@ -14,3 +14,13 @@ spring:
 logging:
   level:
     cn.tedu.csmall: trace
+
+# 当前项目中的自定义配置
+csmall:
+  # JWT相关配置
+  jwt:
+    # 生成和解析JWT时使用的secretKey
+    secret-key: a9F8ujGDhjgFvfEd3SA90ukDS
+    # JWT的有效时长，以分钟为单位
+    duration-in-minute: 14400
+
