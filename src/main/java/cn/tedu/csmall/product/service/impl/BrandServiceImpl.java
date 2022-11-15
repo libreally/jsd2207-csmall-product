@@ -9,6 +9,7 @@ import cn.tedu.csmall.product.pojo.dto.BrandUpdateDTO;
 import cn.tedu.csmall.product.pojo.entity.Brand;
 import cn.tedu.csmall.product.pojo.vo.BrandListItemVO;
 import cn.tedu.csmall.product.pojo.vo.BrandStandardVO;
+import cn.tedu.csmall.product.repo.IBrandRedisRepository;
 import cn.tedu.csmall.product.service.IBrandService;
 import cn.tedu.csmall.product.web.ServiceCode;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,8 @@ public class BrandServiceImpl implements IBrandService {
     private SpuMapper spuMapper;
     @Autowired
     private BrandCategoryMapper brandCategoryMapper;
+    @Autowired
+    private IBrandRedisRepository brandRedisRepository;
 
     public BrandServiceImpl() {
         log.info("创建业务对象：BrandServiceImpl");
@@ -52,7 +55,6 @@ public class BrandServiceImpl implements IBrandService {
             log.warn(message);
             throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
         }
-
         // 创建品牌对象，用于插入到数据表
         Brand brand = new Brand();
         BeanUtils.copyProperties(brandAddNewDTO, brand);
@@ -78,7 +80,6 @@ public class BrandServiceImpl implements IBrandService {
             log.warn(message);
             throw new ServiceException(ServiceCode.ERR_NOT_FOUND, message);
         }
-
         // 检查此品牌是否关联了品牌
         {
             int count = brandCategoryMapper.countByBrand(id);
@@ -88,7 +89,6 @@ public class BrandServiceImpl implements IBrandService {
                 throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
             }
         }
-
         // 检查此品牌是否关联了SPU
         {
             int count = spuMapper.countByBrand(id);
@@ -98,7 +98,6 @@ public class BrandServiceImpl implements IBrandService {
                 throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
             }
         }
-
         // 调用Mapper对象的deleteById()执行删除，并获取返回值
         int rows = brandMapper.deleteById(id);
         // 判断以上返回值是否不为1
@@ -172,7 +171,12 @@ public class BrandServiceImpl implements IBrandService {
     @Override
     public List<BrandListItemVO> list() {
         log.debug("开始处理【查询品牌列表】的业务，无参数");
+        /*
+        List<BrandListItemVO> list = brandMapper.list();
+        brandRedisRepository.save(list);
         return brandMapper.list();
+        */
+        return brandRedisRepository.list();
     }
 
     private void updateEnableById(Long id, Integer enable) {
@@ -186,14 +190,12 @@ public class BrandServiceImpl implements IBrandService {
             log.warn(message);
             throw new ServiceException(ServiceCode.ERR_NOT_FOUND, message);
         }
-
         // 判断查询结果中的enable是否为1
         if (queryResult.getEnable().equals(enable)) {
             String message = tips[enable] + "品牌失败，当前品牌已经处于" + tips[enable] + "状态！";
             log.warn(message);
             throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
         }
-
         // 准备执行更新
         Brand brand = new Brand();
         brand.setId(id);
@@ -205,5 +207,4 @@ public class BrandServiceImpl implements IBrandService {
             throw new ServiceException(ServiceCode.ERR_UPDATE, message);
         }
     }
-
 }

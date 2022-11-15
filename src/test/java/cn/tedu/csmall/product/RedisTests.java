@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 
 import java.io.Serializable;
@@ -117,12 +118,35 @@ public class RedisTests {
             ops.rightPush(key, s);
         }
     }
+
     @Test
-    void size(){
-        String key="stringList";
+    void size() {
+        String key = "stringList";
         ListOperations<String, Serializable> ops = redisTemplate.opsForList();
         Long size = ops.size(key);
-        log.debug("根据Key[{}]读取列表的长度,结果:{}",key,size);
+        log.debug("根据Key[{}]读取列表的长度,结果:{}", key, size);
+    }
+
+    @Test
+    void a() {
+        String key = "stringList";
+        // 读取所有数据 0  -1
+        long start = 0;
+        long end = 9;
+        ListOperations<String, Serializable> ops = redisTemplate.opsForList();
+        List<Serializable> list = ops.range(key, start, end);
+        log.debug("根据Key[{}]从[{}]到[{}]读取列表,结果长度:{}",key,start,end,list);
+        for (Serializable item:list) {
+            log.debug("列表项{}",item);
+
+        }
+    }
+    @Test
+    void add(){
+        SetOperations<String, Serializable> ops = redisTemplate.opsForSet();
+        String key="brandKeys";
+        String value="brand:item:2";
+        ops.add(key,value);
     }
 
 }
