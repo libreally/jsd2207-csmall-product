@@ -159,12 +159,29 @@ public class BrandServiceImpl implements IBrandService {
     @Override
     public BrandStandardVO getStandardById(Long id) {
         log.debug("开始处理【根据id查询品牌详情】的业务，参数：{}", id);
-        BrandStandardVO brand = brandMapper.getStandardById(id);
+        // 根据id从缓存中获取数据
+        log.debug("从redis中获取数据");
+        BrandStandardVO brand = brandRedisRepository.get(id);
+        // 判断获取到的结果是否不为null
+        // 是：直接返回
+        if (brand != null) {
+            log.debug("命中缓存,返回{}", brand);
+            return brand;
+        }
+        // 无缓存数据，从数据库中查找数据
+        log.debug("未命中缓存，即将从数据库中查找数据");
+        brand = brandMapper.getStandardById(id);
+        // 判断查询到的结果是否为null
+        // 是：抛出异常
         if (brand == null) {
             String message = "获取品牌详情失败，尝试访问的数据不存在！";
             log.warn(message);
             throw new ServiceException(ServiceCode.ERR_NOT_FOUND, message);
         }
+        // 将查询结果写入到缓存，并返回
+        log.debug("从数据库查询到有效结果，将查询结果存入到Redis：{}", brand);
+        brandRedisRepository.save(brand);
+        log.debug("返回结果：{}", brand);
         return brand;
     }
 
@@ -177,6 +194,28 @@ public class BrandServiceImpl implements IBrandService {
         return brandMapper.list();
         */
         return brandRedisRepository.list();
+    }
+
+    @Override
+    public void rebuildCache() {
+        log.debug("准备删除redis中的数据");
+        brandRedisRepository.deleteAll();
+        log.debug("删除redis中的数据完成");
+
+        log.debug("准备从数据库中读取品牌列表……");
+        List<BrandListItemVO> list = brandMapper.list();
+        log.debug("从数据库中读取品牌列表，完成！");
+
+        log.debug("准备将品牌列表写入到Redis缓存……");
+        brandRedisRepository.save(list);
+        log.debug("将品牌列表写入到Redis缓存，完成！");
+
+        log.debug("准备将各个品牌详情写入redis缓存");
+        for (BrandListItemVO brandListItemVO:list){
+            Long id = brandListItemVO.getId();
+            BrandStandardVO standardById = brandMapper.getStandardById(id);
+            brandRedisRepository.save(standardById);
+        }
     }
 
     private void updateEnableById(Long id, Integer enable) {

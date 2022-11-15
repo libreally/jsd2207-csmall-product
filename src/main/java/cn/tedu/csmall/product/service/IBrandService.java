@@ -66,4 +66,9 @@ public interface IBrandService {
      */
     List<BrandListItemVO> list();
 
+    /**
+     * 重建缓存
+     */
+    void rebuildCache();
+
 }

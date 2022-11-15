@@ -81,5 +81,9 @@ public interface ICategoryService {
      * @return 类别列表
      */
     List<CategoryListItemVO> list();
+    /**
+     * 根据父级列表查询子集列表
+     */
+    List<CategoryListItemVO> listByParentId(Long parentId);
 
 }

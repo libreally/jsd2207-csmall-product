@@ -272,6 +272,12 @@ public class CategoryServiceImpl implements ICategoryService {
         return categoryMapper.list();
     }
 
+    @Override
+    public List<CategoryListItemVO> listByParentId(Long parentId) {
+        log.debug("根据父级id查询子级列表的业务,参数[{}]",parentId);
+        return categoryMapper.listByParentId(parentId);
+    }
+
     private void updateEnableById(Long id, Integer enable) {
         String[] tips = {"禁用", "启用"};
         log.debug("开始处理【{}类别】的业务，参数：{}", tips[enable], id);
