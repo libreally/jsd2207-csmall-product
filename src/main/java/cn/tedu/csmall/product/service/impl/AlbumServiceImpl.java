@@ -57,6 +57,7 @@ public class AlbumServiceImpl implements IAlbumService {
         // 否：相册名称没有被占用，则向相册表中插入数据
         log.debug("相册名称没有被占用，将向相册表中插入数据");
         Album album = new Album();
+        //将源对象albumAddNewDTO的属性值赋给目标对象album中与源对象albumAddNewDTO中的有着同属性名的属性
         BeanUtils.copyProperties(albumAddNewDTO, album);
         log.debug("即将插入相册数据：{}", album);
         int rows = albumMapper.insert(album);
